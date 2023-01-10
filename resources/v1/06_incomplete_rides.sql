@@ -1,9 +1,8 @@
 CREATE TABLE IF NOT EXISTS incomplete_rides (
-  id INT NOT NULL,
-  booking_time DATETIME NULL,
-  cancellation_time DATETIME NULL,
-  reason_for_cancellation VARCHAR(45) NULL,
-  trip_id INT NULL,
+  id INT NOT NULL AUTO_INCREMENT,
+  cancellation_time DATETIME NOT NULL,
+  reason_for_cancellation VARCHAR(45) NOT NULL,
+  trip_id INT NOT NULL,
   PRIMARY KEY (id),
   INDEX trip_id_idx (trip_id ASC) VISIBLE,
   CONSTRAINT trip_id_inc
