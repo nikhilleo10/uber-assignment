@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-expressions */
+/* eslint-disable no-nested-ternary */
 const _ = require('lodash');
 const moment = require('moment')
 const range = require('lodash/range');
@@ -27,12 +29,14 @@ module.exports = {
           type_of_user: typeOfUser,
           date_of_birth: moment(faker.date.future().toUTCString()).format('YYYY-MM-DD'),
           city: faker.address.city(),
-          location: point 
+          location: point,
+          created_at: moment(moment.now()).format("YYYY-MM-DD HH:mm:ss") 
         }
         if(typeOfUser === 'CUSTOMER') {
           customerUsers.push({
             type: _.sample(['REGULAR', 'PREMIUM']),
-            user_id: userNo
+            user_id: userNo,
+            created_at: moment(moment.now()).format("YYYY-MM-DD HH:mm:ss")
           });
         } else {
           driverUsers.push({
@@ -40,7 +44,8 @@ module.exports = {
             dl_no: `AXB${faker.random.numeric(3)}${faker.random.alphaNumeric(7,{ casing: 'upper' })}`,
             dl_expiry: moment(faker.date.future().toUTCString()).format('YYYY-MM-DD'),
             average_rating: 0,
-            user_id: userNo
+            user_id: userNo,
+            created_at: moment(moment.now()).format("YYYY-MM-DD HH:mm:ss")
           });
         }
         return newUser;
@@ -74,16 +79,20 @@ module.exports = {
         driver_id: driver.id
       }
     })
-    return await queryInterface.bulkInsert('user', arr, {}) 
-      && await queryInterface.bulkInsert('customer', customerUsers, {}) 
-      && await queryInterface.bulkInsert('driver', driverUsers, {})
-      && queryInterface.bulkInsert('vehicle', vehiclesToAssign, {})
+      arr.length ? await queryInterface.bulkInsert('user', arr, {}) : null;
+      customerUsers.length ? await queryInterface.bulkInsert('customer', customerUsers, {}) : null;
+      driverUsers.length ? await queryInterface.bulkInsert('driver', driverUsers, {}) : null;
+      vehiclesToAssign.length ? queryInterface.bulkInsert('vehicle', vehiclesToAssign, {}) : null;
+      return true;
     } catch (error) {
       console.log(error);
     }
   },
-  down: async(queryInterface) => await queryInterface.bulkDelete('vehicle', null, {})
-    && await queryInterface.bulkDelete('customer', null, {})
-    && await queryInterface.bulkDelete('driver', null, {})
-    && queryInterface.bulkDelete('user', null, {})
+  down: async(queryInterface) => {
+    await queryInterface.bulkDelete('vehicle', null, {})
+    await queryInterface.bulkDelete('customer', null, {})
+    await queryInterface.bulkDelete('driver', null, {})
+    await queryInterface.bulkDelete('user', null, {})
+    return true;
+  }
 };
