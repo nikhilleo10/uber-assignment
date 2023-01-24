@@ -3,8 +3,6 @@ import path from 'path';
 import cluster from 'cluster';
 import os from 'os';
 import { camelCase, snakeCase } from 'lodash';
-import authBearer from 'hapi-auth-bearer-token';
-import authConfig from '@config/auth';
 import mapKeysDeep from 'map-keys-deep';
 import hapiPagination from 'hapi-pagination';
 import hapiSwaggerUI from 'hapi-swaggerui';
@@ -107,13 +105,6 @@ const initServer = async () => {
     plugin: hapiPagination,
     options: hapiPaginationOptions,
   });
-
-  // register auth plugin
-  await server.register({
-    plugin: authBearer,
-  });
-  server.auth.strategy('bearer', 'bearer-access-token', authConfig);
-  server.auth.default('bearer');
 
   // Register Wurst plugin
 

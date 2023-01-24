@@ -1,13 +1,11 @@
 import {
-  GRANT_TYPE,
   SCOPE_TYPE,
   OAUTH_CLIENT_ID,
-  DEFAULT_METADATA_OPTIONS,
 } from './constants';
 
 export const mockMetadata = (
   scope = SCOPE_TYPE.ADMIN,
-  resourceType = OAUTH_CLIENT_ID,
+  resourceType = OAUTH_CLIENT_ID
 ) => ({
   oauth_client_scope: {
     get: () => ({
@@ -30,57 +28,41 @@ export const mockMetadata = (
 
 export const mockData = {
   MOCK_USER: {
-    id: 1,
     firstName: 'Sharan',
     lastName: 'Salian',
     email: 'sharan@wednesday.is',
-    oauth_client_id: 1,
+    mobile: 8484283848,
+    distance_in_km: 1220.7751553167675,
   },
-  MOCK_OAUTH_CLIENTS: (metadataOptions = DEFAULT_METADATA_OPTIONS) => ({
-    id: 1,
-    clientId: 'TEST_CLIENT_ID_1',
-    clientSecret: 'TEST_CLIENT_SECRET',
-    grantType: GRANT_TYPE.CLIENT_CREDENTIALS,
-    ...mockMetadata(metadataOptions.scope, metadataOptions.resourceType),
-  }),
-  MOCK_OAUTH_CLIENT_TWO: {
-    id: 1,
-    clientId: 'TEST_CLIENT_ID_1',
-    clientSecret: 'TEST_CLIENT_SECRET',
-    grantType: GRANT_TYPE.CLIENT_CREDENTIALS,
-    ...mockMetadata(SCOPE_TYPE.USER),
+  MOCK_DRIVER: {
+    dlNo: 'AJVAN244BAG',
+    dlExpiry: '2023/04/06',
+    averageRating: 1,
   },
-  MOCK_OAUTH_CLIENT_SUPER_USER: {
-    id: 1,
-    clientId: 'TEST_CLIENT_ID_1',
-    clientSecret: 'TEST_CLIENT_SECRET',
-    grantType: GRANT_TYPE.CLIENT_CREDENTIALS,
-    ...mockMetadata(SCOPE_TYPE.SUPER_ADMIN),
-  },
-  MOCK_OAUTH_CLIENT_RESOURCES: [
-    {
-      id: 1,
-      oauthClientId: 'TEST_CLIENT_ID_1',
-      resourceType: 'OAUTH_CLIENT_ID',
-      resourceId: 1,
-    },
-    {
-      id: 1,
-      oauthClientId: 'TEST_CLIENT_ID_1',
-      resourceType: 'OAUTH_CLIENT_ID',
-      resourceId: 1,
-    },
-  ],
-  MOCK_OAUTH_CLIENT_SCOPES: {
-    id: 1,
-    oauthClientId: 'TEST_CLIENT_ID_1',
-    scope: SCOPE_TYPE.SUPER_ADMIN,
-  },
+  MOCK_VEHICLE: {
+    brand: 'FORD',
+    color: 'Black',
+    vehicleNo: 'BAJA422AG',
+    type: 'CAR',
+    maxCapacity: 5,
+    driver: {
+      dlNo: 'AJVAN244BAG',
+      dlExpiry: '2023/04/06',
+      averageRating: 1,
+      user: {
+        firstName: 'Sharan',
+        lastName: 'Salian',
+        email: 'sharan@wednesday.is',
+        mobile: 8484283848,
+        distance_in_km: 1220.7751553167675,
+      }
+    }
+  }
 };
 
 export const createMockTokenWithScope = (
   scope,
-  resourceType = OAUTH_CLIENT_ID,
+  resourceType = OAUTH_CLIENT_ID
 ) => ({
   oauthClientId: 'TEST_CLIENT_ID_1',
   metadata: {

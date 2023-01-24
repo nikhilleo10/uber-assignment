@@ -1,4 +1,4 @@
-import { findOneUser } from '@daos/userDao';
+import { findOneUser } from '@daos/driverDao';
 import { redisCacheType } from '@utils/cacheConstants';
 
 const cachedUser = async (server) => {

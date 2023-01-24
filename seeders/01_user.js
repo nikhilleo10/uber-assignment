@@ -16,8 +16,9 @@ module.exports = {
         const userNo = index + 1;
         const typeOfUser = _.sample(['DRIVER','CUSTOMER']);
         const firstName = faker.name.firstName();
-        const lastName = faker.name.lastName()
-        const point = Sequelize.fn('ST_GeomFromText', `POINT(${faker.address.longitude()} ${faker.address.latitude()})`)
+        const lastName = faker.name.lastName();
+        const coordinates = faker.address.nearbyGPSCoordinate([26.164324, 75.604077],15);
+        const point = Sequelize.fn('ST_GeomFromText', `POINT(${coordinates[0]} ${coordinates[1]})`)
         // eslint-disable-next-line no-unused-vars
         const newUser = {
           id: userNo,
