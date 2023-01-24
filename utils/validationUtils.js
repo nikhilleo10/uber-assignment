@@ -1,7 +1,7 @@
 import JoiBase from 'joi';
 import JoiDate from '@hapi/joi-date';
 import seedData from './seedData';
-import { GRANT_TYPE } from './constants';
+import { GRANT_TYPE, TYPE_OF_VEHICLES } from './constants';
 
 const Joi = JoiBase.extend(JoiDate);
 
@@ -58,3 +58,14 @@ export const oneOfAllowedScopes = Joi.string()
 export const stringAllowedSchema = Joi.string().required();
 
 export const numberAllowedSchema = Joi.number();
+
+
+export const locationSchema = JoiBase.string().custom((val, helper) => {
+  const coordinates = val.split(',');
+  if((coordinates[1] >= -90 && coordinates[1] <= 90) && (coordinates[0] >= -180 && coordinates[0] <= 180)) {
+    return val
+  }
+  return helper.message('Invalid Coordinates');
+}).error(new Error('Invalid Coordinates.'))
+
+export const typeOfVehicleSchema = Joi.string().valid(...TYPE_OF_VEHICLES).required().error(new Error('Invalid type of vehicle.'))

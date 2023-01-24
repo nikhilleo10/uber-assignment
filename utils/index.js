@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { v4 as uuidv4 } from 'uuid';
 import get from 'lodash/get';
 import find from 'lodash/find';
@@ -13,8 +14,7 @@ import {
   TIMESTAMP,
 } from '@utils/constants';
 // eslint-disable-next-line import/no-cycle
-import { getMetaDataByOAuthClientId } from '@daos/oauthClientsDao';
-import { findOneUser } from '@daos/userDao';
+
 import { createLogger, format, transports } from 'winston';
 import rTracer from 'cls-rtracer';
 
@@ -104,42 +104,42 @@ export const hasPowerOver = (token, oauthClientId, scope) => {
  * @param {any} scope
  * @returns {any}
  */
-export const getScope = (oauthClientId) =>
-  getMetaDataByOAuthClientId(oauthClientId).then((metadata) =>
-    get(metadata, 'scope.scope')
-  );
+// export const getScope = (oauthClientId) =>
+//   getMetaDataByOAuthClientId(oauthClientId).then((metadata) =>
+//     get(metadata, 'scope.scope')
+//   );
 
 /** Checks whether the provided oauthClientId has scope over a given userId
  * @param  {String} oauthClientId
  * @param  {Number} userId
  * @returns {Boolean}
  */
-export async function hasScopeOverUser({
-  oauthClientId,
-  userId,
-  scope = null,
-}) {
-  if (scope === null) {
-    // !TODO scope should always be passed
-    // eslint-disable-next-line no-param-reassign
-    scope = await getScope(oauthClientId);
-  }
-  if (includes(SUPER_SCOPES, scope)) {
-    return true;
-  }
-  if (scope === SCOPE_TYPE.ADMIN) {
-    const metadata = await getMetaDataByOAuthClientId(oauthClientId);
-    return validateResources(metadata, USER_ID, userId);
-  }
-  if (scope === SCOPE_TYPE.USER) {
-    const result = await findOneUser(userId);
-    if (!isNil(result)) {
-      return result.oauth_client_id === oauthClientId;
-    }
-    return false;
-  }
-  return false;
-}
+// export async function hasScopeOverUser({
+//   oauthClientId,
+//   userId,
+//   scope = null,
+// }) {
+//   if (scope === null) {
+//     // !TODO scope should always be passed
+//     // eslint-disable-next-line no-param-reassign
+//     scope = await getScope(oauthClientId);
+//   }
+//   if (includes(SUPER_SCOPES, scope)) {
+//     return true;
+//   }
+//   if (scope === SCOPE_TYPE.ADMIN) {
+//     const metadata = await getMetaDataByOAuthClientId(oauthClientId);
+//     return validateResources(metadata, USER_ID, userId);
+//   }
+//   if (scope === SCOPE_TYPE.USER) {
+//     const result = await findOneUser(userId);
+//     if (!isNil(result)) {
+//       return result.oauth_client_id === oauthClientId;
+//     }
+//     return false;
+//   }
+//   return false;
+// }
 
 /**
  * Validates the scope of credentials for the request route
@@ -148,29 +148,29 @@ export async function hasScopeOverUser({
  * @param  {Object} credentials
  * @returns {Boolean}
  */
-export async function validateScopeForRoute({ paths, request, credentials }) {
-  let isAllowed = true;
-  const scope = await getScope(credentials.oauthClientId);
-  await Promise.all(
-    paths.map(async (route) => {
-      if (
-        request.route.path === route.path &&
-        request.route.method.toUpperCase() === route.method.toUpperCase()
-      ) {
-        isAllowed =
-          includes(route.scopes, scope) &&
-          (route.customValidator
-            ? await route.customValidator({
-                oauthClientId: get(credentials, 'oauthClientId'),
-                userId: get(request, 'params.userId'),
-                scope,
-              })
-            : true);
-      }
-    })
-  );
-  return isAllowed;
-}
+// export async function validateScopeForRoute({ paths, request, credentials }) {
+//   let isAllowed = true;
+//   const scope = await getScope(credentials.oauthClientId);
+//   await Promise.all(
+//     paths.map(async (route) => {
+//       if (
+//         request.route.path === route.path &&
+//         request.route.method.toUpperCase() === route.method.toUpperCase()
+//       ) {
+//         isAllowed =
+//           includes(route.scopes, scope) &&
+//           (route.customValidator
+//             ? await route.customValidator({
+//                 oauthClientId: get(credentials, 'oauthClientId'),
+//                 userId: get(request, 'params.userId'),
+//                 scope,
+//               })
+//             : true);
+//       }
+//     })
+//   );
+//   return isAllowed;
+// }
 export const isTestEnv = () =>
   process.env.ENVIRONMENT_NAME === 'test' || process.env.NODE_ENV === 'test';
 export const isLocalEnv = () => process.env.ENVIRONMENT_NAME === 'local';

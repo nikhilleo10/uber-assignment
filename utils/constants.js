@@ -40,3 +40,5 @@ export const DEFAULT_METADATA_OPTIONS = {
   scope: SCOPE_TYPE.ADMIN,
   resourceType: OAUTH_CLIENT_ID,
 };
+
+export const TYPE_OF_VEHICLES = ['AUTO','BIKE','CAR'];

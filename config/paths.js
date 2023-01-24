@@ -1,4 +1,5 @@
 import { SCOPE_TYPE } from '@utils/constants';
+// eslint-disable-next-line import/named
 import { hasScopeOverUser } from '@utils/index';
 
 const paths = [
