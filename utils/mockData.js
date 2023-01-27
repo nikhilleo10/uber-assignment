@@ -1,6 +1,7 @@
 import {
   SCOPE_TYPE,
   OAUTH_CLIENT_ID,
+  TRIP_STATUS_TYPES,
 } from './constants';
 
 export const mockMetadata = (
@@ -57,7 +58,14 @@ export const mockData = {
         distance_in_km: 1220.7751553167675,
       }
     }
-  }
+  },
+  MOCK_REQUESTED_RIDES: {
+    pickupLoc: '93 Avenue Mall, Fatima nagar, Pune',
+    dropLoc: 'KK Market road, Dankwadi, Pune',
+    dateOfRide: '2023-01-24',
+    bookingTime: '2023-01-24 10:43:18',
+    tripStatus: TRIP_STATUS_TYPES.PENDING,
+  },
 };
 
 export const createMockTokenWithScope = (

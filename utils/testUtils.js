@@ -1,13 +1,14 @@
 import { users } from '@models';
 import { init } from '../lib/testServer';
 import { mockData } from './mockData';
-import { DEFAULT_METADATA_OPTIONS } from './constants';
+import { DEFAULT_METADATA_OPTIONS, TRIP_STATUS_TYPES } from './constants';
+import _ from 'lodash';
 
 export function configDB(metadataOptions = DEFAULT_METADATA_OPTIONS) {
   const SequelizeMock = require('sequelize-mock');
   const DBConnectionMock = new SequelizeMock();
 
-  const vehicleMock = DBConnectionMock.define('vehicle', mockData.MOCK_VEHICLE, {
+  const vehicleMock = DBConnectionMock.define('vehicles', mockData.MOCK_VEHICLE, {
     instanceMethods: {
       getDriver: function () {
         return this.get('driver');
@@ -16,16 +17,46 @@ export function configDB(metadataOptions = DEFAULT_METADATA_OPTIONS) {
   });
   vehicleMock.findByPk = (query) => vehicleMock.findById(query);
 
-  const driver = DBConnectionMock.define('driver', mockData.MOCK_DRIVER);
-  driver.findByPk = (query) => driver.findById(query);
+  const driverMock = DBConnectionMock.define('drivers', mockData.MOCK_DRIVER);
+  driverMock.findByPk = (query) => driverMock.findById(query);
 
-  const userMock = DBConnectionMock.define('userMock', mockData.MOCK_USER);
+  const userMock = DBConnectionMock.define('users', mockData.MOCK_USER);
   userMock.findByPk = (query) => userMock.findById(query);
+
+  const requestRideMock = DBConnectionMock.define('requested_rides', mockData.MOCK_REQUESTED_RIDES, {
+    instanceMethods: {
+      update: () => {
+        return {
+          ...mockData.MOCK_REQUESTED_RIDES,
+          tripStatus: TRIP_STATUS_TYPES.ASSIGNED,
+          driverId: 1
+        }
+      }
+    }
+  });
+  requestRideMock.findByPk = (query) => requestRideMock.findById(query);
+  requestRideMock.create = () => mockData.MOCK_REQUESTED_RIDES;
+  requestRideMock.findOne = () => requestRideMock;
+  requestRideMock.findAndCountAll = () => {
+    const arr = [];
+    // eslint-disable-next-line no-plusplus
+    for (let i = 0; i < 10; i++) {
+      arr.push(mockData.MOCK_REQUESTED_RIDES);
+    }
+    return {
+      count: 10,
+      rows: arr
+    }
+  }
+  requestRideMock.update = () => {
+    return true
+  };
 
   return {
     users: userMock,
-    vehicle: vehicleMock,
-    driver: driver,
+    vehicles: vehicleMock,
+    drivers: driverMock,
+    requestedRides: requestRideMock
   };
 }
 

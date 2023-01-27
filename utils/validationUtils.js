@@ -69,3 +69,9 @@ export const locationSchema = JoiBase.string().custom((val, helper) => {
 }).error(new Error('Invalid Coordinates.'))
 
 export const typeOfVehicleSchema = Joi.string().valid(...TYPE_OF_VEHICLES).required().error(new Error('Invalid type of vehicle.'))
+
+export const customerIdSchema = Joi.number().required().error(new Error('Invalid customer id.'));
+
+export const idSchema = Joi.number().required();
+
+export const trimmedStringSchema = Joi.string().trim().required();
