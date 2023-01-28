@@ -53,7 +53,15 @@ export const TRIP_STATUS_TYPES = {
 }
 
 export const ROUTE_NAMES = {
-  BOOK_RIDE: 'BOOK_RIDE',
-  GET_PENDING_RIDES: 'GET_PENDING_RIDES',
-  ACCEPT_RIDE: 'ACCEPT_RIDE'
+  END_RIDE: 'END_RIDE',
+  ACCEPT_RIDE: 'ACCEPT_RIDE',
+  CANCEL_RIDE: 'CANCEL_RIDE',
+  GET_COMPLETE_INCOMPLETE_RIDE: 'GET_COMPLETE_INCOMPLETE_RIDE'
+}
+
+export const TYPE_OF_RIDE = ['completed','incomplete'];
+
+export const GET_TYPE_OF_RIDE = {
+  complete: 'completed',
+  incomplete: 'incomplete'
 }

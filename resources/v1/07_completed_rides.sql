@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS completed_rides (
   id INT NOT NULL AUTO_INCREMENT,
-  pickup_time DATETIME NOT NULL,
-  dropoff_time DATETIME NULL,
+  pickup_time TIMESTAMP NOT NULL,
+  dropoff_time TIMESTAMP NULL,
   duration_travelled FLOAT NULL,
   actual_fare FLOAT NULL,
   tip FLOAT NULL,

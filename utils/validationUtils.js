@@ -1,7 +1,7 @@
 import JoiBase from 'joi';
 import JoiDate from '@hapi/joi-date';
 import seedData from './seedData';
-import { GRANT_TYPE, TYPE_OF_VEHICLES } from './constants';
+import { GRANT_TYPE, TYPE_OF_RIDE, TYPE_OF_VEHICLES } from './constants';
 
 const Joi = JoiBase.extend(JoiDate);
 
@@ -75,3 +75,7 @@ export const customerIdSchema = Joi.number().required().error(new Error('Invalid
 export const idSchema = Joi.number().required();
 
 export const trimmedStringSchema = Joi.string().trim().required();
+
+export const decimalSchema = Joi.number().precision(2).required();
+
+export const typeOfRideSchema = Joi.string().valid(...TYPE_OF_RIDE).required().error(new Error('Invalid type of ride.'))

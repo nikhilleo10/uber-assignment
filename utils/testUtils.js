@@ -37,18 +37,93 @@ export function configDB(metadataOptions = DEFAULT_METADATA_OPTIONS) {
   requestRideMock.findByPk = (query) => requestRideMock.findById(query);
   requestRideMock.create = () => mockData.MOCK_REQUESTED_RIDES;
   requestRideMock.findOne = () => requestRideMock;
-  requestRideMock.findAndCountAll = () => {
+  requestRideMock.findAndCountAll = (query) => {
+    if(query) {
+      const includedModelName = query.include[0].model.name;
+      const arr = [];
+      // eslint-disable-next-line no-plusplus
+      for (let i = 0; i < 10; i++) {
+        if(includedModelName === 'incomplete_rides') {
+          arr.push(mockData.MOCK_INCOMPLETE_RIDES);
+        } else {
+          arr.push(mockData.MOCK_COMPLETED_RIDES)
+        }
+      }
+      return {
+        count: 10,
+        rows: arr
+      }
+    } else {
+      const arr = []
+      for (let i = 0; i < 10; i++) {
+        arr.push(mockData.MOCK_REQUESTED_RIDES)
+      }
+      return {
+        count: 10,
+        rows: arr
+      }
+    }
+  }
+  requestRideMock.update = () => {
+    return true
+  };
+
+  const completedRideMock = DBConnectionMock.define('completed_rides', mockData.MOCK_COMPLETED_RIDES, {
+    instanceMethods: {
+      update: () => {
+        return {
+          ...mockData.MOCK_COMPLETED_RIDES,
+          tripStatus: TRIP_STATUS_TYPES.ASSIGNED,
+          driverId: 1
+        }
+      }
+    }
+  });
+  completedRideMock.findByPk = (query) => completedRideMock.findById(query);
+  completedRideMock.create = () => mockData.MOCK_REQUESTED_RIDES;
+  completedRideMock.findOne = () => completedRideMock;
+  completedRideMock.findAndCountAll = () => {
     const arr = [];
     // eslint-disable-next-line no-plusplus
     for (let i = 0; i < 10; i++) {
-      arr.push(mockData.MOCK_REQUESTED_RIDES);
+      arr.push(mockData.MOCK_COMPLETED_RIDES);
     }
     return {
       count: 10,
       rows: arr
     }
   }
-  requestRideMock.update = () => {
+  completedRideMock.update = () => {
+    return mockData.MOCK_COMPLETED_RIDES
+  };
+
+  const incompleteRideMock = DBConnectionMock.define('incomplete_rides', mockData.MOCK_INCOMPLETE_RIDES, {
+    instanceMethods: {
+      update: () => {
+        return {
+          ...mockData.MOCK_COMPLETED_RIDES,
+          tripStatus: TRIP_STATUS_TYPES.ASSIGNED,
+          driverId: 1
+        }
+      }
+    }
+  });
+  incompleteRideMock.findByPk = (query) => incompleteRideMock.findById(query);
+  incompleteRideMock.create = () => mockData.MOCK_INCOMPLETE_RIDES;
+  incompleteRideMock.findOne = () => incompleteRideMock;
+  incompleteRideMock.findAndCountAll = () => {
+    const arr = [];
+    // eslint-disable-next-line no-plusplus
+    for (let i = 0; i < 10; i++) {
+      arr.push(mockData.MOCK_INCOMPLETE_RIDES);
+    }
+    return {
+      count: 10,
+      rows: arr
+    }
+  }
+
+  incompleteRideMock.update = () => {
     return true
   };
 
@@ -56,7 +131,9 @@ export function configDB(metadataOptions = DEFAULT_METADATA_OPTIONS) {
     users: userMock,
     vehicles: vehicleMock,
     drivers: driverMock,
-    requestedRides: requestRideMock
+    requestedRides: requestRideMock,
+    completedRides: completedRideMock,
+    incompleteRides: incompleteRideMock,
   };
 }
 
