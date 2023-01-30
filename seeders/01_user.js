@@ -41,7 +41,6 @@ module.exports = {
           });
         } else {
           driverUsers.push({
-            id: userNo,
             dl_no: `AXB${faker.random.numeric(3)}${faker.random.alphaNumeric(7,{ casing: 'upper' })}`,
             dl_expiry: moment(faker.date.future().toUTCString()).format('YYYY-MM-DD'),
             average_rating: 0,
@@ -52,7 +51,8 @@ module.exports = {
         return newUser;
       }
     );
-    const vehiclesToAssign = driverUsers.map((driver) => {
+    const vehiclesToAssign = driverUsers.map((driver, index) => {
+      const driverId = index + 1;
       const typeOfVehicle = _.sample(['CAR', 'BIKE', 'AUTO']);
       let capacity;
       switch (typeOfVehicle) {
@@ -77,7 +77,7 @@ module.exports = {
         engine_type: _.sample(['PETROL', 'DIESEL', 'ELECTRIC', 'CNG']),
         insurance_no: faker.vehicle.vin(),
         insurance_exp: moment(faker.date.future(+faker.random.numeric()).toUTCString()).format('YYYY-MM-DD'),
-        driver_id: driver.id
+        driver_id: driverId
       }
     })
       arr.length ? await queryInterface.bulkInsert('user', arr, {}) : null;

@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS incomplete_rides (
   id INT NOT NULL AUTO_INCREMENT,
-  cancellation_time DATETIME NOT NULL,
+  cancellation_time TIMESTAMP NOT NULL,
   reason_for_cancellation VARCHAR(45) NOT NULL,
   trip_id INT NOT NULL,
   PRIMARY KEY (id),

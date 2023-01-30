@@ -64,8 +64,47 @@ export const mockData = {
     dropLoc: 'KK Market road, Dankwadi, Pune',
     dateOfRide: '2023-01-24',
     bookingTime: '2023-01-24 10:43:18',
+    estDistance: 6.5,
+    estFate: 178.34,
     tripStatus: TRIP_STATUS_TYPES.PENDING,
   },
+  MOCK_COMPLETED_RIDES: {
+    pickupLoc: '93 Avenue Mall, Fatima nagar, Pune',
+    dropLoc: 'KK Market road, Dankwadi, Pune',
+    dateOfRide: '2023-01-24',
+    bookingTime: '2023-01-24 10:43:18',
+    estDistance: 6.5,
+    estFate: 178.34,
+    tripStatus: TRIP_STATUS_TYPES.COMPLETED,
+    completedRides: {
+      pickupTime: '2023-01-24 10:43:18',
+      dropoffTime: '2023-01-24 12:43:18',
+      durationTravelled: "0:0:0",
+      actualFare: 100,
+      tip: 0,
+      tripId: 1
+    }
+  },
+  MOCK_INCOMPLETE_RIDES: {
+    id: 1,
+    pickupLoc: "New Pickup",
+    dropLoc: "New Drop",
+    dateOfRide: "2023-01-27",
+    bookingTime: "2023-01-27T13:03:57.000Z",
+    estFare: 907.3,
+    estDistance: 10.55,
+    tripStatus: "CANCELLED",
+    custId: 1,
+    driverId: 2,
+    createdAt: "2023-01-27T13:03:57.000Z",
+    incompleteRide: {
+      id: 1,
+      cancellationTime: "2023-01-27T14:01:56.000Z",
+      reasonForCancellation: "I am unable to get the ride sorry!",
+      tripId: 2,
+      createdAt: "2023-01-27T14:01:56.000Z",
+    }
+  }
 };
 
 export const createMockTokenWithScope = (

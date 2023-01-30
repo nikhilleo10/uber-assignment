@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS requested_rides (
   pickup_loc VARCHAR(45) NOT NULL,
   drop_loc VARCHAR(45) NOT NULL,
   date_of_ride DATE NOT NULL,
-  booking_time DATETIME NOT NULL,
+  booking_time TIMESTAMP NOT NULL,
   est_fare FLOAT NULL,
   est_distance FLOAT NULL,
   cust_id INT NOT  NULL,
